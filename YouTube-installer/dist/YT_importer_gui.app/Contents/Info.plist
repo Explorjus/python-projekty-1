@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>YT_importer_gui</string>
+	<key>CFBundleExecutable</key>
+	<string>YT_importer_gui</string>
+	<key>CFBundleIconFile</key>
+	<string>generated-925e8e196d2afba5244a587f412ebd88f7fa35096a5079afec6f3afc7ba43ee3.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>YT_importer_gui</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>YT_importer_gui</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.0.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+</dict>
+</plist>

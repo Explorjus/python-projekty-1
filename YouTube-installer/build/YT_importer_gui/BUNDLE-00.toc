@@ -1,0 +1,3 @@
+([('YT_importer_gui',
+   '/Users/explorjus/Python-projekty/dist/YT_importer_gui',
+   'EXECUTABLE')],)

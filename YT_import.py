@@ -2,6 +2,22 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import subprocess
+import tkinter
+import customtkinter
+
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
+
+app = customtkinter.CTk()
+app.geometry("1980x1080")
+app.title("YT Import")
+
+title = customtkinter.CTkLabel(app, text="Wprowadz link do filmu z YouTube", font=("Arial", 20))
+title.pack(pady=10, padx=10)
+
+link = customtkinter.CTkEntry(app, width=350, height=50)
+link.pack()
+app.mainloop()
 
 link = str(input("Wpisz link do filu z youtube: "))
 save_path = "/Users/explorjus/Wideo"
