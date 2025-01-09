@@ -1,0 +1,90 @@
+import folium
+from geopy.geocoders import Nominatim
+import os
+import subprocess
+import requests
+from dotenv import load_dotenv
+import tkinter
+import customtkinter
+import webbrowser
+
+# api z ukrytego pliku .env
+load_dotenv("/Users/explorjus/Python_1/.gitignore/.env.py")
+
+api = os.getenv("API_KEY")
+
+# funkcja do sugestii miast
+def suggest_cities(user_input, api_key):
+    url = "https://maps.googleapis.com/maps/api/place/autocomplete/json"
+    params = {
+        "input": user_input,
+        "types": "geocode",  
+        "key": api_key,
+        "language": "pl"    
+    }
+    response = requests.get(url, params=params)
+    
+    if response.status_code == 200:
+        predictions = response.json().get("predictions", [])
+        return [prediction["description"] for prediction in predictions]
+    else:
+        return []
+
+# funkcja do aktualizacji listy propozycji
+def update_suggestions(event):
+    user_input = entry.get()
+    suggestions = suggest_cities(user_input, api)
+    listbox.delete(0, tkinter.END)
+    for suggestion in suggestions:
+        listbox.insert(tkinter.END, suggestion)
+
+# funkcja do obsługi wyboru z listy
+def on_select(event):
+    selected_city = listbox.get(listbox.curselection())
+    print(f"Wybrane miasto: {selected_city}")
+    show_city_details(selected_city)
+
+# funkcja do wyświetlania szczegółów wybranego miasta
+def show_city_details(city_name):
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(city_name)
+    if location:
+        details = f"Miasto: {city_name}\nSzerokość geograficzna: {location.latitude}\nDługość geograficzna: {location.longitude}"
+        details_label.configure(text=details)
+        print(details)
+        create_map(location.latitude, location.longitude, city_name)
+    else:
+        details_label.configure(text="Nie znaleziono szczegółów dla wybranego miasta.")
+        print("Nie znaleziono szczegółów dla wybranego miasta.")
+
+# funkcja do tworzenia mapy
+def create_map(lat, lon, city_name):
+    map = folium.Map(location=[lat, lon], zoom_start=12)
+    folium.Marker([lat, lon], popup=city_name).add_to(map)
+    map_path = os.path.join(os.getcwd(), "map.html")
+    map.save(map_path)
+    webbrowser.open(f"file://{map_path}")
+
+# Inicjalizacja głównego okna
+root = customtkinter.CTk()
+root.title("Sugestie miast")
+
+# Etykieta i pole tekstowe do wprowadzenia miasta
+label = customtkinter.CTkLabel(root, text="Wpisz nazwę miasta:")
+label.pack(pady=10)
+
+entry = customtkinter.CTkEntry(root, width=400)
+entry.pack(pady=10)
+entry.bind("<KeyRelease>", update_suggestions)
+
+# Lista propozycji
+listbox = tkinter.Listbox(root, width=50, height=10)
+listbox.pack(pady=10)
+listbox.bind("<<ListboxSelect>>", on_select)
+
+# Etykieta do wyświetlania szczegółów wybranego miasta
+details_label = customtkinter.CTkLabel(root, text="")
+details_label.pack(pady=10)
+
+# Uruchomienie głównej pętli aplikacji
+root.mainloop()

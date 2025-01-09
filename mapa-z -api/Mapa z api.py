@@ -4,6 +4,8 @@ import os
 import subprocess
 import requests
 from dotenv import load_dotenv
+import tkinter
+import customtkinter
 
 # api z ukrytego pliku .env
 load_dotenv("/Users/explorjus/Python_1/.gitignore/.env.py")
